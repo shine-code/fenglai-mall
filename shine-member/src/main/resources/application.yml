@@ -1,3 +1,5 @@
 spring:
+  application:
+    name: sunshine-member
   profiles:
     active: dev

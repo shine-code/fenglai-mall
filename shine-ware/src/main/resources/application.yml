@@ -1,3 +1,5 @@
 spring:
+  application:
+    name: sunshine-ware
   profiles:
     active: dev

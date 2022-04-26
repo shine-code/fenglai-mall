@@ -52,6 +52,13 @@ spring:
         # 通过connectProperties属性来打开mergeSql功能；记录慢SQL
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
+  cloud:
+    nacos:
+      # 注册中心
+      discovery:
+        server-addr: http://localhost:8848
+
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
