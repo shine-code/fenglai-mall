@@ -10,15 +10,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>shine-coupon</module>
-        <module>shine-member</module>
-        <module>shine-order</module>
-        <module>shine-product</module>
-        <module>shine-ware</module>
+        <module>mall-coupon</module>
+        <module>mall-member</module>
+        <module>mall-order</module>
+        <module>mall-product</module>
+        <module>mall-ware</module>
         <module>shine-admin</module>
         <module>shine-common</module>
-        <module>shine-common/common-web</module>
-        <module>shine-common/common-core</module>
     </modules>
 
     <parent>
@@ -37,7 +35,10 @@
         <spring-cloud.version>2021.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <hutool.version>5.7.22</hutool.version>
+        <guava.version>31.1-jre</guava.version>
+        <joda-time.version>2.10.14</joda-time.version>
         <druid.version>1.2.8</druid.version>
+        <mysql.version>8.0.28</mysql.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
     </properties>
 
@@ -50,6 +51,11 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
@@ -73,6 +79,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
 
             <dependency>
@@ -85,6 +92,12 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

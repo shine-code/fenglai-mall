@@ -1,6 +1,5 @@
-package com.shine.admin;
+package com.shine.member;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,10 +14,9 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan("com.shine")
-@MapperScan(value = "com.shine.admin")
-public class AdminApplication {
+public class MemberApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
+        SpringApplication.run(MemberApplication.class, args);
     }
 }
