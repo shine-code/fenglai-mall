@@ -17,6 +17,7 @@
         <module>mall-ware</module>
         <module>shine-admin</module>
         <module>shine-common</module>
+        <module>shine-gateway</module>
     </modules>
 
     <parent>
