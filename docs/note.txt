@@ -1,0 +1,9 @@
+# 各模块端口号
+8001    mall-coupon
+8002    mall-member
+8003    mall-order
+8004    mall-product
+8005    mall-ware
+7000    shine-gateway
+7001    shine-admin
+7002    shine-common-file

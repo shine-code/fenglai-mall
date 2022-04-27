@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: sunshine-common-file
+  profiles:
+    active: dev
