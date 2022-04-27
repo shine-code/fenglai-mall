@@ -1,3 +1,6 @@
+server:
+  port: 8005
+
 spring:
   cloud:
     nacos:

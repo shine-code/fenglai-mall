@@ -15,8 +15,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public enum ResultCode implements IResultCode, Serializable {
 
-    SUCCESS("00000", "ok"),
-    SYSTEM_EXECUTION_ERROR("S0001", "系统执行出错");
+    SUCCESS("200", "ok"),
+    SYSTEM_EXECUTION_ERROR("500", "系统执行出错");
 
 
     @Override

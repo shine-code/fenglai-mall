@@ -2,6 +2,7 @@ package com.shine.admin.index;
 
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.shine.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +28,10 @@ public class IndexController {
     IndexMapper indexMapper;
 
     @RequestMapping("/v1")
-    public void get() {
+    public R get() {
         String sql = "select * from data_test limit 1";
         List<Map<String, Object>> maps = mysqlJdbc.queryForList(sql);
-        System.out.println(maps);
 
-        System.out.println(indexMapper.selectList(new QueryWrapper<>()));
+        return R.ok(maps);
     }
 }

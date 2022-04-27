@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: sunshine-admin
+          uri: lb://sunshine-admin
+          predicates:
+            - Path=/sunshine-admin/**
+          filters:
+            - StripPrefix=1

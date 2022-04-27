@@ -1,12 +1,10 @@
 package com.shine.common.web.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 public class R implements Serializable {
 
     private String code;
@@ -15,64 +13,51 @@ public class R implements Serializable {
 
     private Object data;
 
-    private R(){}
+    private R() {
+    }
 
     /**
      * 调用成功
      */
     public static R ok() {
-        R r = new R();
-        r.setCode(ResultCode.SUCCESS.getCode());
-        r.setMessage(ResultCode.SUCCESS.getMessage());
-        return r;
+        return restResult(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), null);
     }
 
     public static R ok(Object data) {
-        R r = new R();
-        r.setCode(ResultCode.SUCCESS.getCode());
-        r.setMessage(ResultCode.SUCCESS.getMessage());
-        r.setData(data);
-        return r;
+        return restResult(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
     }
 
     public static R ok(String code, String message, Object data) {
-        R r = new R();
-        r.setCode(code);
-        r.setMessage(message);
-        r.setData(data);
-        return r;
+        return restResult(code, message, data);
+
     }
 
     /**
      * 调用失败
      */
     public static R error() {
-        R r = new R();
-        r.setCode(ResultCode.SYSTEM_EXECUTION_ERROR.getCode());
-        r.setMessage(ResultCode.SYSTEM_EXECUTION_ERROR.getMessage());
-        return r;
+        return restResult(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), ResultCode.SYSTEM_EXECUTION_ERROR.getMessage(), null);
     }
 
     public static R error(String code, String message) {
-        R r = new R();
-        r.setCode(code);
-        r.setMessage(message);
-        return r;
+        return restResult(code, message, null);
+
     }
 
     public static R error(Object data) {
-        R r = new R();
-        r.setCode(ResultCode.SYSTEM_EXECUTION_ERROR.getCode());
-        r.setMessage(ResultCode.SYSTEM_EXECUTION_ERROR.getMessage());
-        r.setData(data);
-        return r;
+        return restResult(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), ResultCode.SYSTEM_EXECUTION_ERROR.getMessage(), data);
     }
 
     public static R error(String code, String message, Object data) {
-        R r = new R();
-        r.setCode(code);
-        r.setMessage(message);
-        r.setData(data);
-        return r;
+        return restResult(code, message, data);
+
+    }
+
+    private static R restResult(String code, String msg, Object data) {
+        R apiResult = new R();
+        apiResult.setCode(code);
+        apiResult.setData(data);
+        apiResult.setMessage(msg);
+        return apiResult;
     }
 }
