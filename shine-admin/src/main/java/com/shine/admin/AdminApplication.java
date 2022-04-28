@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
  **/
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan("com.shine")
+@ComponentScan({"com.shine.admin", "com.shine.common.web"})
 @MapperScan(value = "com.shine.admin")
 public class AdminApplication {
 

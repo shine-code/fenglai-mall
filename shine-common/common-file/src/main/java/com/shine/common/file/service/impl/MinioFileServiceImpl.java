@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -28,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author: TJ
  * @date:  2022-04-28
  **/
-@Slf4j
+@Slf4j(topic = "common-file-service")
 @Service("MinioFileService")
 public class MinioFileServiceImpl implements ShineFileService {
 
@@ -54,11 +53,11 @@ public class MinioFileServiceImpl implements ShineFileService {
     }
 
     /**
-     * 创建存储桶
+     * 若桶不存在, 创建桶
      *
      * @param bucketName 存储桶名称
      */
-    public boolean createBucket(String bucketName) {
+    public boolean createBucketIfIfAbsent(String bucketName) {
         boolean exist = bucketExists(bucketName);
         if (!exist) {
             try {
@@ -77,9 +76,8 @@ public class MinioFileServiceImpl implements ShineFileService {
                 log.error("createBucket exception: {}, \n {}", bucketName, e);
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -98,6 +96,8 @@ public class MinioFileServiceImpl implements ShineFileService {
         if (StrUtil.isBlank(bucketName)) {
             bucketName = minioConfig.getDefaultBucketName();
         }
+
+        createBucketIfIfAbsent(bucketName);
 
         // 存储文件名取UUID
         String fileName = multipartFile.getOriginalFilename();
@@ -120,7 +120,7 @@ public class MinioFileServiceImpl implements ShineFileService {
         String customDomain = minioConfig.getCustomDomain();
         if (StrUtil.isBlank(customDomain)) {
 
-            fileUrl = getFileUrl(bucketName, fileName);
+            fileUrl = getFileUrl(bucketName, objectName);
             fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
         } else {
             // 自定义文件路径域名, Nginx 配置代理转发MinIO
@@ -139,26 +139,28 @@ public class MinioFileServiceImpl implements ShineFileService {
      * @return 访问路径
      */
     public String getFileUrl(String bucketName, String fileName) {
-        boolean flag = bucketExists(bucketName);
+        boolean exist = bucketExists(bucketName);
+        if (!exist) {
+            log.warn("获取文件访问路径, 桶不存在, bucketName: {}, fileName:{}", bucketName, fileName);
+            return "";
+        }
         String url = "";
-        if (flag) {
-            try {
-                url = minioClient.getPresignedObjectUrl(
-                        GetPresignedObjectUrlArgs.builder()
-                                .method(Method.GET)
-                                .bucket(bucketName)
-                                .object(fileName)
-                                .build());
-            } catch (Exception e) {
-                throw new FileServiceException(String.format("文件路径获取异常, bucketName: %s, fileName: %s; \n %s", bucketName, fileName, e));
-            }
+        try {
+            url = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(fileName)
+                            .build());
+        } catch (Exception e) {
+            log.error("文件路径获取异常, bucketName: {}, fileName: {}; \n {}", bucketName, fileName, e);
         }
         return url;
     }
 
     @Override
-    public boolean removeFile(String fileName) {
-        return removeFile(null, fileName);
+    public boolean deleteFile(String fileName) {
+        return deleteFile(null, fileName);
     }
 
 
@@ -169,7 +171,10 @@ public class MinioFileServiceImpl implements ShineFileService {
      * @param fileName 存储桶里的文件名称
      */
     @Override
-    public boolean removeFile(String bucketName, String fileName) {
+    public boolean deleteFile(String bucketName, String fileName) {
+        if (StrUtil.isBlank(bucketName)) {
+            bucketName = minioConfig.getDefaultBucketName();
+        }
         boolean flag = bucketExists(bucketName);
         if (flag) {
             try {
@@ -183,23 +188,22 @@ public class MinioFileServiceImpl implements ShineFileService {
                 return false;
             }
         }
-        log.warn("file not found when remove, bucketName:{}, fileName:{}", bucketName, fileName);
         return true;
     }
 
     @Override
-    public List<String> removeFile(List<String> fileNames) {
-        return removeFile(null, fileNames);
+    public List<String> deleteFile(List<String> fileNames) {
+        return deleteFile(null, fileNames);
     }
 
     /**
-     * 删除指定桶的多个文件对象, 返回删除错误的对象列表; 全部删除成功，返回空列表
+     * 删除指定桶的多个文件对象
      *
      * @param bucketName  存储桶名称
      * @param fileNames 删除文件集合
      */
     @Override
-    public List<String> removeFile(String bucketName, List<String> fileNames) {
+    public List<String> deleteFile(String bucketName, List<String> fileNames) {
         if (StrUtil.isBlank(bucketName)) {
             bucketName = minioConfig.getDefaultBucketName();
         }

@@ -2,7 +2,6 @@ package com.shine.common.file.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -29,28 +28,30 @@ public interface ShineFileService {
     String upload(String bucketName, MultipartFile multipartFile);
 
     /**
-     * 删除单个文件
+     * 删除单个文件, 取默认桶名称
      * @param fileName 文件名
      */
-    boolean removeFile(String fileName);
+    boolean deleteFile(String fileName);
 
     /**
      * 删除单个文件
      * @param bucketName 桶
      * @param fileName 文件名
      */
-    boolean removeFile(String bucketName, String fileName);
+    boolean deleteFile(String bucketName, String fileName);
 
     /**
      * 删除多个文件
      * @param fileNames 文件名集合
+     * @return 删除错误的对象列表; 全部删除成功，返回空列表
      */
-    List<String> removeFile(List<String> fileNames);
+    List<String> deleteFile(List<String> fileNames);
 
     /**
      * 删除多个文件
      * @param bucketName 桶
      * @param fileNames 文件名集合
+     * @return 删除错误的对象列表; 全部删除成功，返回空列表
      */
-    List<String> removeFile(String bucketName, List<String> fileNames);
+    List<String> deleteFile(String bucketName, List<String> fileNames);
 }
