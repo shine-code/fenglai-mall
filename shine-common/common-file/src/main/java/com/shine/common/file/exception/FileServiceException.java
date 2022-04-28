@@ -1,4 +1,4 @@
-package com.shine.common.web.exception;
+package com.shine.common.file.exception;
 /**
  * @description:
  * 

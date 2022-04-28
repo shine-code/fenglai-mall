@@ -1,11 +1,13 @@
 package com.shine.common.file.service.impl;
 
+import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.IdUtil;
-import com.shine.common.file.service.IFileService;
-import com.shine.common.web.exception.FileServiceException;
+import cn.hutool.core.util.StrUtil;
+import com.shine.common.file.config.MinioConfig;
+import com.shine.common.file.exception.FileServiceException;
+import com.shine.common.file.service.ShineFileService;
 import io.minio.*;
 import io.minio.http.Method;
-import io.minio.messages.Bucket;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,12 @@ import java.util.concurrent.TimeUnit;
  **/
 @Slf4j
 @Service("MinioFileService")
-public class MinioFileServiceImpl implements IFileService {
+public class MinioFileServiceImpl implements ShineFileService {
 
     @Autowired
     private MinioClient minioClient;
+    @Autowired
+    private MinioConfig minioConfig;
 
     /**
      * 检查存储桶是否存在
@@ -62,6 +66,13 @@ public class MinioFileServiceImpl implements IFileService {
                         MakeBucketArgs.builder()
                                 .bucket(bucketName)
                                 .build());
+
+                // 设置存储桶访问权限
+                SetBucketPolicyArgs setBucketPolicyArgs = SetBucketPolicyArgs.builder()
+                        .bucket(bucketName)
+                        .config(publicBucketPolicy(bucketName))
+                        .build();
+                minioClient.setBucketPolicy(setBucketPolicyArgs);
             } catch (Exception e) {
                 log.error("createBucket exception: {}, \n {}", bucketName, e);
             }
@@ -71,26 +82,9 @@ public class MinioFileServiceImpl implements IFileService {
         }
     }
 
-    /**
-     * 列出所有存储桶名称
-     */
-    public List<String> listBucketNames() {
-        List<Bucket> bucketList = listBuckets();
-        List<String> bucketListName = new ArrayList<>();
-        bucketList.forEach(bucket -> bucketListName.add(bucket.name()));
-        return bucketListName;
-    }
-
-    /**
-     * 所有存储桶
-     */
-    private List<Bucket> listBuckets() {
-        try {
-            return minioClient.listBuckets();
-        } catch (Exception e) {
-            log.error("minio 查询存储桶异常: ", e);
-        }
-        return new ArrayList<>();
+    @Override
+    public String upload(MultipartFile multipartFile) {
+        return upload(null, multipartFile);
     }
 
     /**
@@ -100,24 +94,40 @@ public class MinioFileServiceImpl implements IFileService {
      * @param multipartFile 文件
      */
     @Override
-    public void upload(String bucketName, MultipartFile multipartFile, String fileType) {
+    public String upload(String bucketName, MultipartFile multipartFile) {
+        if (StrUtil.isBlank(bucketName)) {
+            bucketName = minioConfig.getDefaultBucketName();
+        }
+
+        // 存储文件名取UUID
+        String fileName = multipartFile.getOriginalFilename();
+        String objectName = IdUtil.fastSimpleUUID() + "." + FileNameUtil.getSuffix(fileName);
+
         try {
-            String fileName = multipartFile.getOriginalFilename();
-
-            String objectName = IdUtil.fastSimpleUUID()
-                    + fileName.substring(fileName.lastIndexOf("."));
-
             InputStream inputStream = new ByteArrayInputStream(multipartFile.getBytes());
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
-                            .stream(inputStream, -1, -1)
-                            .contentType(fileType)
+                            .stream(inputStream, multipartFile.getSize(), -1)
+                            .contentType(multipartFile.getContentType())
                             .build());
         } catch (Exception e) {
-            throw new FileServiceException("文件上传异常: " + e);
+            throw new FileServiceException("minio文件上传异常: " + e);
         }
+
+        String fileUrl;
+        String customDomain = minioConfig.getCustomDomain();
+        if (StrUtil.isBlank(customDomain)) {
+
+            fileUrl = getFileUrl(bucketName, fileName);
+            fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
+        } else {
+            // 自定义文件路径域名, Nginx 配置代理转发MinIO
+            fileUrl = customDomain + '/' + bucketName + "/" + fileName;
+        }
+
+        return fileUrl;
     }
 
 
@@ -138,7 +148,6 @@ public class MinioFileServiceImpl implements IFileService {
                                 .method(Method.GET)
                                 .bucket(bucketName)
                                 .object(fileName)
-                                .expiry(2, TimeUnit.MINUTES)
                                 .build());
             } catch (Exception e) {
                 throw new FileServiceException(String.format("文件路径获取异常, bucketName: %s, fileName: %s; \n %s", bucketName, fileName, e));
@@ -147,13 +156,19 @@ public class MinioFileServiceImpl implements IFileService {
         return url;
     }
 
+    @Override
+    public boolean removeFile(String fileName) {
+        return removeFile(null, fileName);
+    }
+
 
     /**
-     * 删除一个对象
+     * 删除单个文件
      *
      * @param bucketName 存储桶名称
      * @param fileName 存储桶里的文件名称
      */
+    @Override
     public boolean removeFile(String bucketName, String fileName) {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -164,44 +179,30 @@ public class MinioFileServiceImpl implements IFileService {
                                 .object(fileName)
                                 .build());
             } catch (Exception e) {
-                throw new FileServiceException(String.format("删除文件异常, bucketName: %s, fileName: %s; \n %s", bucketName, fileName, e));
+                log.error("删除文件异常, bucketName: {}, fileName: {}; \n {}", bucketName, fileName, e);
+                return false;
             }
-            return true;
         }
         log.warn("file not found when remove, bucketName:{}, fileName:{}", bucketName, fileName);
-        return false;
+        return true;
+    }
+
+    @Override
+    public List<String> removeFile(List<String> fileNames) {
+        return removeFile(null, fileNames);
     }
 
     /**
-     * 以流的形式获取一个文件对象
-     *
-     * @param bucketName 存储桶名称
-     * @param fileName 存储桶里的文件名称
-     * @return 文件流
-     */
-    public InputStream getFileInputStream(String bucketName, String fileName) {
-        boolean flag = bucketExists(bucketName);
-        if (flag) {
-            try {
-                return minioClient.getObject(
-                        GetObjectArgs.builder()
-                                .bucket(bucketName)
-                                .object(fileName)
-                                .build());
-            } catch (Exception e) {
-                throw new FileServiceException(String.format("获取文件对象元数据异常, bucketName: %s, fileName: %s; \n %s", bucketName, fileName, e));
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 删除指定桶的多个文件对象,返回删除错误的对象列表，全部删除成功，返回空列表
+     * 删除指定桶的多个文件对象, 返回删除错误的对象列表; 全部删除成功，返回空列表
      *
      * @param bucketName  存储桶名称
      * @param fileNames 删除文件集合
      */
+    @Override
     public List<String> removeFile(String bucketName, List<String> fileNames) {
+        if (StrUtil.isBlank(bucketName)) {
+            bucketName = minioConfig.getDefaultBucketName();
+        }
         List<String> res = new ArrayList<>();
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -225,5 +226,29 @@ public class MinioFileServiceImpl implements IFileService {
             }
         }
         return res;
+    }
+
+    /**
+     * public桶策略
+     * minio新建存储桶的访问策略是private, 拒绝访问 Access Denied
+     *
+     * @param bucketName 桶名称
+     */
+    private static String publicBucketPolicy(String bucketName) {
+        /*
+         * AWS的S3存储桶策略
+         * Principal: 生效用户对象
+         * Resource:  指定存储桶
+         * Action: 操作行为
+         */
+        return "{\"Version\":\"2012-10-17\"," +
+                "\"Statement\":[{\"Effect\":\"Allow\"," +
+                "\"Principal\":{\"AWS\":[\"*\"]}," +
+                "\"Action\":[\"s3:ListBucketMultipartUploads\",\"s3:GetBucketLocation\",\"s3:ListBucket\"]," +
+                "\"Resource\":[\"arn:aws:s3:::" + bucketName + "\"]}," +
+                "{\"Effect\":\"Allow\"," +
+                "\"Principal\":{\"AWS\":[\"*\"]}," +
+                "\"Action\":[\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:GetObject\"]," +
+                "\"Resource\":[\"arn:aws:s3:::" + bucketName + "/*\"]}]}";
     }
 }
