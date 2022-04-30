@@ -4,6 +4,6 @@
 8003    mall-order
 8004    mall-product
 8005    mall-ware
-7000    shine-gateway
-7001    shine-admin
-7002    shine-common-file
+7000    fenglai-gateway
+7001    fenglai-admin
+7002    fenglai-common-file

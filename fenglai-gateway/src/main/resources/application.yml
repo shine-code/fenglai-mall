@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: fenglai-admin
+          uri: lb://fenglai-admin
+          predicates:
+            - Path=/fenglai-admin/**
+          filters:
+            - StripPrefix=1

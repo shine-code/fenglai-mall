@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: sunshine-gateway
-  profiles:
-    active: dev
