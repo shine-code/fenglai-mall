@@ -1,4 +1,4 @@
-package com.fenglai.common.web.redis;
+package com.fenglai.test.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
- *
+ * 
  * @author: TJ
  * @date:  2022-04-27
  **/

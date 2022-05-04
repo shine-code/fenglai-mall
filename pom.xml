@@ -18,6 +18,7 @@
         <module>fenglai-admin</module>
         <module>fenglai-common</module>
         <module>fenglai-gateway</module>
+        <module>fenglai-tests</module>
     </modules>
 
     <parent>
