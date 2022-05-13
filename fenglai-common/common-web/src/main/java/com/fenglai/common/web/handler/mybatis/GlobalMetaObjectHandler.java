@@ -28,7 +28,7 @@ public class GlobalMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         if (metaObject.hasSetter("updateTime")) {
-            this.strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
+            this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
         }
     }
 }

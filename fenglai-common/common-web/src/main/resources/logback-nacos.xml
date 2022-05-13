@@ -5,7 +5,6 @@
                  当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
 <!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration  scan="true" scanPeriod="10 seconds">
-    <contextName>logback</contextName>
 
     <springProperty scope="context" name="applicationName" source="spring.application.name" />
     <springProperty scope="context" name="graylogHost" source="logging.graylog.host" />
@@ -32,35 +31,35 @@
     </appender>
 
     <!-- 输出到 Graylog -->
-    <appender name="GELF" class="de.siegmar.logbackgelf.GelfUdpAppender">
-        <!-- Graylog服务的地址 -->
-        <graylogHost>${graylogHost}</graylogHost>
-        <!-- UDP Input端口 -->
-        <graylogPort>${graylogPort}</graylogPort>
-        <!-- 最大GELF数据块大小（单位：字节），508为建议最小值，最大值为65467 -->
-        <maxChunkSize>508</maxChunkSize>
-        <!-- 是否使用压缩 -->
-        <useCompression>true</useCompression>
-        <encoder class="de.siegmar.logbackgelf.GelfEncoder">
-            <!-- 是否发送原生的日志信息 -->
-            <includeRawMessage>false</includeRawMessage>
-            <includeMarker>true</includeMarker>
-            <includeMdcData>true</includeMdcData>
-            <includeCallerData>false</includeCallerData>
-            <includeRootCauseData>false</includeRootCauseData>
-            <!-- 是否发送日志级别的名称，否则默认以数字代表日志级别 -->
-            <includeLevelName>true</includeLevelName>
-            <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">
-                <pattern>%m%nopex</pattern>
-            </shortPatternLayout>
-            <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
-                <pattern>%d - [%thread] %-5level %logger{35} - %msg%n</pattern>
-            </fullPatternLayout>
+<!--    <appender name="GELF" class="de.siegmar.logbackgelf.GelfUdpAppender">-->
+<!--        &lt;!&ndash; Graylog服务的地址 &ndash;&gt;-->
+<!--        <graylogHost>${graylogHost}</graylogHost>-->
+<!--        &lt;!&ndash; UDP Input端口 &ndash;&gt;-->
+<!--        <graylogPort>${graylogPort}</graylogPort>-->
+<!--        &lt;!&ndash; 最大GELF数据块大小（单位：字节），508为建议最小值，最大值为65467 &ndash;&gt;-->
+<!--        <maxChunkSize>508</maxChunkSize>-->
+<!--        &lt;!&ndash; 是否使用压缩 &ndash;&gt;-->
+<!--        <useCompression>true</useCompression>-->
+<!--        <encoder class="de.siegmar.logbackgelf.GelfEncoder">-->
+<!--            &lt;!&ndash; 是否发送原生的日志信息 &ndash;&gt;-->
+<!--            <includeRawMessage>false</includeRawMessage>-->
+<!--            <includeMarker>true</includeMarker>-->
+<!--            <includeMdcData>true</includeMdcData>-->
+<!--            <includeCallerData>false</includeCallerData>-->
+<!--            <includeRootCauseData>false</includeRootCauseData>-->
+<!--            &lt;!&ndash; 是否发送日志级别的名称，否则默认以数字代表日志级别 &ndash;&gt;-->
+<!--            <includeLevelName>true</includeLevelName>-->
+<!--            <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">-->
+<!--                <pattern>%m%nopex</pattern>-->
+<!--            </shortPatternLayout>-->
+<!--            <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">-->
+<!--                <pattern>%d - [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+<!--            </fullPatternLayout>-->
 
-            <!-- 配置应用名称（服务名称），通过staticField标签可以自定义一些固定的日志字段 -->
-            <staticField>app_name:${applicationName}</staticField>
-        </encoder>
-    </appender>
+<!--            &lt;!&ndash; 配置应用名称（服务名称），通过staticField标签可以自定义一些固定的日志字段 &ndash;&gt;-->
+<!--            <staticField>app_name:${applicationName}</staticField>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
     <!-- 输出到文件  -->
 <!--    <appender name="timeFileOutput" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
@@ -92,7 +91,7 @@
     <springProfile name="dev">
         <root level="DEBUG">
             <appender-ref ref="CONSOLE" />
-            <appender-ref ref="GELF" />
+<!--            <appender-ref ref="GELF" />-->
         </root>
 
         <!-- 输出日志细粒度控制, 去掉一些debug日志 -->
