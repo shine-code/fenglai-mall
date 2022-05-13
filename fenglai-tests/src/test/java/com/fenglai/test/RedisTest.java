@@ -1,5 +1,6 @@
 package com.fenglai.test;
 
+import cn.hutool.core.util.IdUtil;
 import com.dtflys.forest.Forest;
 import com.dtflys.forest.exceptions.ForestRuntimeException;
 import com.dtflys.forest.http.ForestRequest;
@@ -29,6 +30,12 @@ public class RedisTest {
 
     @Autowired
     RedisService redisService;
+
+    @Test
+    void vTest() {
+//        int a = 4294967295;
+        System.out.println(IdUtil.getSnowflakeNextId());
+    }
 
     @Test
     void cacheTest() {

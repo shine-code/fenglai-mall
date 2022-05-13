@@ -52,4 +52,9 @@ public class IndexController {
             lock.unlock();
         }
     }
+
+    @GetMapping("login")
+    public void security() {
+        System.out.println("login ===");
+    }
 }

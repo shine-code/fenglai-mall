@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan({"com.fenglai.admin", "com.fenglai.common.web"})
-@MapperScan(value = "com.fenglai.admin")
+@MapperScan(value = "com.fenglai.admin.mapper")
 public class AdminApplication {
 
     public static void main(String[] args) {

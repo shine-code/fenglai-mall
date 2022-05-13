@@ -1,4 +1,4 @@
-# 各模块端口号
+# 端口号
 8001    mall-coupon
 8002    mall-member
 8003    mall-order
@@ -7,3 +7,5 @@
 7000    fenglai-gateway
 7001    fenglai-admin
 7002    fenglai-common-file
+
+9002    Graylog
