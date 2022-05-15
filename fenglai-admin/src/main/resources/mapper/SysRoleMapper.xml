@@ -3,7 +3,7 @@
 <mapper namespace="com.fenglai.admin.mapper.SysRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.fenglai.admin.pojo.dos.SysRole">
+    <resultMap id="BaseResultMap" type="com.fenglai.admin.pojo.dos.SysRoleDO">
         <result column="role_code" property="roleCode" />
         <result column="role_name" property="roleName" />
         <result column="sort" property="sort" />

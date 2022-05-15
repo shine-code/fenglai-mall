@@ -1,7 +1,7 @@
 package com.fenglai.common.file;
 
 import cn.hutool.core.lang.Pair;
-import com.fenglai.common.file.service.ShineFileService;
+import com.fenglai.common.file.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class FileServiceTest {
 
     @Autowired
-    ShineFileService fileService;
+    FileService fileService;
 
     @Test
     public void uploadTest() {

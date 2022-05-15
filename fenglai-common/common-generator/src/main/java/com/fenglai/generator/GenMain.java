@@ -18,9 +18,9 @@ import java.util.Collections;
  **/
 public class GenMain {
 
-    private static final String db_url = "x";
-    private static final String db_user = "x";
-    private static final String db_pwd = "x";
+    private static final String db_url = "*";
+    private static final String db_user = "*";
+    private static final String db_pwd = "*";
 
     // 模块名
     private static final String MODULE_NAME = "fenglai-admin";
@@ -61,6 +61,7 @@ public class GenMain {
                                 .addIgnoreColumns("id","create_time","update_time","create_by","update_by")
                                 .enableLombok()
                                 .enableTableFieldAnnotation()
+                                .convertFileName(entityName -> entityName + "DO")
                             .mapperBuilder()
                                 .enableBaseColumnList()
                                 .enableBaseResultMap();
@@ -70,7 +71,8 @@ public class GenMain {
                             .service("templates/service.java")
                             .serviceImpl("templates/serviceImpl.java")
                             .mapper("templates/mapper.java")
-                            .controller("templates/controller.java").build();
+                            .controller("templates/controller.java")
+                            .build();
                 })
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();

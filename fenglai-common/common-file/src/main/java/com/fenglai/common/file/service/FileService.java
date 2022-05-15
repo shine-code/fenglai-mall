@@ -10,7 +10,7 @@ import java.util.List;
  * @author: TJ
  * @date:  2022-04-28
  **/
-public interface ShineFileService {
+public interface FileService {
 
     /**
      * 上传文件

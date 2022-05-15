@@ -39,37 +39,5 @@ public class ${table.controllerName} {
     @Autowired
     private ${table.serviceName} ${table.serviceName?uncap_first};
 
-    /**
-     * 列表查询
-     */
-    @GetMapping(value = "list")
-    public R list(){
-        return R.ok();
-    }
-
-    /**
-     * 根据id查询详情
-     */
-    @GetMapping(value = "getById")
-    public R getById(Long id){
-        return R.ok();
-    }
-
-    /**
-     * 新增数据
-     */
-    @PostMapping(value = "add")
-    public R add(){
-        return R.ok();
-    }
-
-    /**
-     * 根据id删除
-     */
-    @GetMapping(value = "deleteById")
-    public R delete(Long id){
-        return R.ok();
-    }
-
 }
 </#if>

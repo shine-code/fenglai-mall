@@ -9,42 +9,30 @@ import lombok.experimental.Accessors;
 import com.fenglai.common.web.pojo.BaseEntity;
 
 /**
- * @description: 角色表
+ * @description: 角色权限表
  *
  * @author TJ
- * @date: 2022-05-13
+ * @date: 2022-05-15
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("sys_role")
-public class SysRole extends BaseEntity implements Serializable {
+@TableName("sys_role_permission")
+public class SysRolePermissionDO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色编码
+     * 权限id
      */
-    @TableField("role_code")
-    private String roleCode;
+    @TableField("permission_id")
+    private Long permissionId;
 
     /**
-     * 角色名
+     * 角色id
      */
-    @TableField("role_name")
-    private String roleName;
-
-    /**
-     * 角色排序
-     */
-    @TableField("sort")
-    private Integer sort;
-
-    /**
-     * 角色状态
-     */
-    @TableField("role_status")
-    private Integer roleStatus;
+    @TableField("role_id")
+    private Long roleId;
 
 
 }

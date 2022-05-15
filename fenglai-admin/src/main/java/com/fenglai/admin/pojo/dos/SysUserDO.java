@@ -12,13 +12,13 @@ import com.fenglai.common.web.pojo.BaseEntity;
  * @description: 用户表
  *
  * @author TJ
- * @date: 2022-05-13
+ * @date: 2022-05-15
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_user")
-public class SysUser extends BaseEntity implements Serializable {
+public class SysUserDO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

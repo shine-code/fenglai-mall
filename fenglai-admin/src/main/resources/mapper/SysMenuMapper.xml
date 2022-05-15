@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fenglai.admin.mapper.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fenglai.admin.pojo.dos.SysMenuDO">
+        <result column="menu_name" property="menuName" />
+        <result column="menu_type" property="menuType" />
+        <result column="menu_path" property="menuPath" />
+        <result column="icon" property="icon" />
+        <result column="menu_status" property="menuStatus" />
+        <result column="hierarchy_path" property="hierarchyPath" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        menu_name, menu_type, menu_path, icon, menu_status, hierarchy_path
+    </sql>
+
+</mapper>

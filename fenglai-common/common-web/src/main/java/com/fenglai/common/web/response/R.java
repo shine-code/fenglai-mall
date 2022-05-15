@@ -50,7 +50,14 @@ public class R implements Serializable {
 
     public static R error(String code, String message, Object data) {
         return restResult(code, message, data);
+    }
 
+    public static R judge(boolean status) {
+        if (status) {
+            return ok();
+        } else {
+            return error();
+        }
     }
 
     private static R restResult(String code, String msg, Object data) {

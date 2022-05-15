@@ -3,7 +3,7 @@
 <mapper namespace="com.fenglai.admin.mapper.SysUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.fenglai.admin.pojo.dos.SysUser">
+    <resultMap id="BaseResultMap" type="com.fenglai.admin.pojo.dos.SysUserDO">
         <result column="user_name" property="userName" />
         <result column="nick_name" property="nickName" />
         <result column="org_id" property="orgId" />

@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fenglai.admin.service.ISysRoleService;
+import com.fenglai.admin.service.ISysDictItemService;
 
 /**
- * @description: 角色表 Controller
+ * @description: 字典数据表 Controller
  *
  * @author TJ
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-role-do")
-public class SysRoleController {
+@RequestMapping("api/v1/sys-dict-item-do")
+public class SysDictItemController {
 
     @Autowired
-    private ISysRoleService iSysRoleService;
+    private ISysDictItemService iSysDictItemService;
 
 }

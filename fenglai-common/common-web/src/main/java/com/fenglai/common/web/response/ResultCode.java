@@ -16,7 +16,7 @@ import java.io.Serializable;
 public enum ResultCode implements IResultCode, Serializable {
 
     SUCCESS("200", "ok"),
-    SYSTEM_EXECUTION_ERROR("500", "系统执行出错");
+    SYSTEM_EXECUTION_ERROR("500", "操作失败");
 
 
     @Override

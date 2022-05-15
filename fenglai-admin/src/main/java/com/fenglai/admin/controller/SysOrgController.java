@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fenglai.admin.service.ISysRoleService;
+import com.fenglai.admin.service.ISysOrgService;
 
 /**
- * @description: 角色表 Controller
+ * @description: 组织单位表 Controller
  *
  * @author TJ
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-role-do")
-public class SysRoleController {
+@RequestMapping("api/v1/sys-org-do")
+public class SysOrgController {
 
     @Autowired
-    private ISysRoleService iSysRoleService;
+    private ISysOrgService iSysOrgService;
 
 }

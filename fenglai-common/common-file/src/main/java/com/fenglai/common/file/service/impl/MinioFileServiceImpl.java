@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fenglai.common.file.config.MinioConfig;
 import com.fenglai.common.file.exception.FileServiceException;
-import com.fenglai.common.file.service.ShineFileService;
+import com.fenglai.common.file.service.FileService;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.DeleteError;
@@ -28,8 +28,8 @@ import java.util.List;
  * @date:  2022-04-28
  **/
 @Slf4j(topic = "common-file-service")
-@Service("MinioFileService")
-public class MinioFileServiceImpl implements ShineFileService {
+@Service("minioFileService")
+public class MinioFileServiceImpl implements FileService {
 
     @Autowired
     private MinioClient minioClient;
