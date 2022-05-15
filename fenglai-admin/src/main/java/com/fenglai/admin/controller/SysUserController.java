@@ -1,6 +1,6 @@
 package com.fenglai.admin.controller;
 
-import com.fenglai.admin.pojo.dos.SysUser;
+import com.fenglai.admin.pojo.dtos.AddUserDTO;
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,48 +13,24 @@ import com.fenglai.admin.service.ISysUserService;
  * @description: 用户表 Controller
  *
  * @author TJ
- * @date: 2022-05-13
+ * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-user")
+@RequestMapping("api/v1/sys-user-do")
 public class SysUserController {
 
     @Autowired
     private ISysUserService iSysUserService;
 
     /**
-     * 列表查询
+     * 新增用户
+     * @param userDTO 用户对象
+     * @return R
      */
-    @GetMapping(value = "list")
-    public R list(){
-        return R.ok();
-    }
-
-    /**
-     * 根据id查询详情
-     */
-    @GetMapping(value = "getById")
-    public R getById(Long id){
-        return R.ok();
-    }
-
-    /**
-     * 新增数据
-     */
-    @PostMapping(value = "add")
-    public R add(){
-        SysUser user = new SysUser()
-                .setUserName("aaa");
-        iSysUserService.save(user);
-        return R.ok();
-    }
-
-    /**
-     * 根据id删除
-     */
-    @GetMapping(value = "deleteById")
-    public R delete(Long id){
-        return R.ok();
+    @PostMapping("addUser")
+    public R addUser(AddUserDTO userDTO) {
+        boolean res = iSysUserService.addUser(userDTO);
+        return R.judge(res);
     }
 
 }

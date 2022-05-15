@@ -1,5 +1,6 @@
 package com.fenglai.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.fenglai.admin.pojo.dos.SysUserDO;
 import com.fenglai.admin.mapper.SysUserMapper;
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
@@ -22,7 +23,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
 
      @Override
      public boolean addUser(AddUserDTO userDTO) {
-
-          return false;
+          SysUserDO sysUserDO = new SysUserDO();
+          BeanUtil.copyProperties(userDTO, sysUserDO);
+          return saveOrUpdate(sysUserDO);
      }
 }
