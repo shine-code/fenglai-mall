@@ -3,6 +3,8 @@ package com.fenglai.admin.pojo.dtos;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @description: 新增用户DTO
  * 
@@ -36,6 +38,7 @@ public class AddUserDTO {
     /**
      * 联系方式
      */
+    @NotBlank(message = "手机号不能为空")
     private String phone;
 
     /**

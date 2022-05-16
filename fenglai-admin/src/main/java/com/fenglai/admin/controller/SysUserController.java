@@ -2,12 +2,13 @@ package com.fenglai.admin.controller;
 
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
 import com.fenglai.common.web.response.R;
+import org.hibernate.validator.internal.util.annotation.ConstraintAnnotationDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import com.fenglai.admin.service.ISysUserService;
+
+import javax.validation.Valid;
 
 /**
  * @description: 用户表 Controller
@@ -16,7 +17,7 @@ import com.fenglai.admin.service.ISysUserService;
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-user-do")
+@RequestMapping("api/v1/sys-user")
 public class SysUserController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class SysUserController {
      * @return R
      */
     @PostMapping("addUser")
-    public R addUser(AddUserDTO userDTO) {
+    public R addUser(@Valid @RequestBody AddUserDTO userDTO) {
         boolean res = iSysUserService.addUser(userDTO);
         return R.judge(res);
     }
