@@ -19,7 +19,6 @@
         <module>fenglai-common</module>
         <module>fenglai-gateway</module>
         <module>fenglai-auth</module>
-        <module>fenglai-tests</module>
     </modules>
 
     <parent>
@@ -31,7 +30,7 @@
 
     <properties>
         <!-- 临时变量 -->
-        <nacos.url>http://localhost:8848</nacos.url>
+        <nacos.url>http://*:8848</nacos.url>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

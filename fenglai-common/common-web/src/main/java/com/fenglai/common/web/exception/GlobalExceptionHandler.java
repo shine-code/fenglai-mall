@@ -15,7 +15,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+    @ExceptionHandler(BindException.class)
+    public R error(BindException e) {
+        log.error("参数校验异常: ", e);
+        String errorMessage = e.getBindingResult()
+                .getAllErrors()
+                .get(0)
+                .getDefaultMessage();
+        return R.error(errorMessage);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public R error(MethodArgumentNotValidException e) {
         log.error("参数校验异常: ", e);
         String errorMessage = e.getBindingResult()
