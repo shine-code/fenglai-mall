@@ -2,8 +2,10 @@ package com.fenglai.admin.pojo.dtos;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * @description: 新增用户DTO
@@ -16,9 +18,15 @@ import javax.validation.constraints.NotBlank;
 public class AddUserDTO {
 
     /**
+     * 用户id
+     */
+    private Long id;
+
+    /**
      * 用户名
      */
     @NotBlank(message = "用户名不能为空")
+    @Length(max = 20, message = "用户名不超过20字")
     private String userName;
 
     /**
@@ -46,4 +54,9 @@ public class AddUserDTO {
      * 用户头像
      */
     private String avatar;
+
+    /**
+     * 关联角色id集合
+     */
+    private List<Long> roleIds;
 }

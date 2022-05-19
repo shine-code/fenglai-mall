@@ -13,4 +13,8 @@ import com.fenglai.admin.pojo.dtos.AddUserDTO;
 public interface ISysUserService extends IService<SysUserDO> {
 
     boolean addUser(AddUserDTO userDTO);
+
+    boolean updateUser(AddUserDTO userDTO);
+
+    boolean changeUserStatus(Long userId, Integer userStatus);
 }

@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysUserGroupRefServiceImpl extends ServiceImpl<SysUserGroupRefMapper, SysUserGroupRefDO> implements ISysUserGroupRefService {
 
      @Autowired
-     private SysUserGroupRefMapper sysUserGroupRefDO;
+     private SysUserGroupRefMapper sysUserGroupRefMapper;
 }

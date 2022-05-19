@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermissionDO> implements ISysPermissionService {
 
      @Autowired
-     private SysPermissionMapper sysPermissionDO;
+     private SysPermissionMapper sysPermissionMapper;
 }

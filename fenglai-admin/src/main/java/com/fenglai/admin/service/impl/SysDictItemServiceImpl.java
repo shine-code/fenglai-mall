@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItemDO> implements ISysDictItemService {
 
      @Autowired
-     private SysDictItemMapper sysDictItemDO;
+     private SysDictItemMapper sysDictItemMapper;
 }

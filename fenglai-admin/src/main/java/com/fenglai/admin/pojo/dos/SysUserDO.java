@@ -57,6 +57,11 @@ public class SysUserDO extends BaseEntity implements Serializable {
      */
     @TableField("avatar")
     private String avatar;
+    /**
+     * 邮箱
+     */
+    @TableField("email")
+    private String email;
 
     /**
      * 用户状态

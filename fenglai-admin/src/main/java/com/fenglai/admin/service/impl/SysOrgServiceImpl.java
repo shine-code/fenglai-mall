@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysOrgServiceImpl extends ServiceImpl<SysOrgMapper, SysOrgDO> implements ISysOrgService {
 
      @Autowired
-     private SysOrgMapper sysOrgDO;
+     private SysOrgMapper sysOrgMapper;
 }

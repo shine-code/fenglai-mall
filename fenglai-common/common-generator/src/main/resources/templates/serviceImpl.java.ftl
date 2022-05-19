@@ -22,6 +22,6 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
      @Autowired
-     private ${table.mapperName} ${table.entityName?uncap_first};
+     private ${table.mapperName} ${table.mapperName?uncap_first};
 }
 </#if>

@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuDO> implements ISysMenuService {
 
      @Autowired
-     private SysMenuMapper sysMenuDO;
+     private SysMenuMapper sysMenuMapper;
 }

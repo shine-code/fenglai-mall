@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDictDO> implements ISysDictService {
 
      @Autowired
-     private SysDictMapper sysDictDO;
+     private SysDictMapper sysDictMapper;
 }

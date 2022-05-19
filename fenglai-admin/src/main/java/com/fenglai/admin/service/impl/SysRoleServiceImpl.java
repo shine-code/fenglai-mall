@@ -17,5 +17,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleDO> implements ISysRoleService {
 
      @Autowired
-     private SysRoleMapper sysRoleDO;
+     private SysRoleMapper sysRoleMapper;
 }
