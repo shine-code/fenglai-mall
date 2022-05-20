@@ -15,7 +15,7 @@ public enum UserStatusEnum implements IBaseEnum<Integer, String> {
 
     ENABLE(0, "已启用"),
     DISABLE(1, "已禁用"),
-    DELETED(1, "已删除");
+    DELETED(2, "已删除");
 
     @Getter
     private final Integer value;

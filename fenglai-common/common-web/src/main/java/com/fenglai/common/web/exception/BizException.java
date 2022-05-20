@@ -17,10 +17,15 @@ public class BizException extends RuntimeException{
     }
 
     @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
     public String toString() {
-        return "CustomerException{" +
-                "code=" + code +
-                ", cusMessage='" + message + '\'' +
+        return "BizException{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
                 '}';
     }
 }

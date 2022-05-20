@@ -105,7 +105,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
           Assert.isTrue(exist, "用户状态不存在");
           Assert.notNull(getById(userId), "用户不存在");
 
-          return update(Wrappers.lambdaUpdate(SysUserDO.class)
+          return update(new SysUserDO(), Wrappers.lambdaUpdate(SysUserDO.class)
                   .eq(SysUserDO::getId, userId)
                   .set(SysUserDO::getUserStatus, userStatus));
      }

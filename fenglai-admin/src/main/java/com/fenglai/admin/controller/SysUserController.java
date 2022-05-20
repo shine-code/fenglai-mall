@@ -1,6 +1,7 @@
 package com.fenglai.admin.controller;
 
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
+import com.fenglai.common.web.annotations.PostParam;
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,8 +31,7 @@ public class SysUserController {
      */
     @PostMapping("addUser")
     public R addUser(@Validated @RequestBody AddUserDTO userDTO) {
-        boolean res = iSysUserService.addUser(userDTO);
-        return R.judge(res);
+        return R.judge(iSysUserService.addUser(userDTO));
     }
 
     /**
@@ -41,8 +41,7 @@ public class SysUserController {
      */
     @PostMapping("updateUser")
     public R updateUser(@Validated @RequestBody AddUserDTO userDTO) {
-        boolean res = iSysUserService.updateUser(userDTO);
-        return R.judge(res);
+        return R.judge(iSysUserService.updateUser(userDTO));
     }
 
     /**
@@ -52,9 +51,9 @@ public class SysUserController {
      * @return R
      */
     @PostMapping("changeUserStatus")
-    public R changeUserStatus(@NotNull(message = "用户id不能为空") Long id,
-                              @NotNull(message = "用户状态不能为空") Integer userStatus) {
-        return R.ok(iSysUserService.changeUserStatus(id, userStatus));
+    public R changeUserStatus(@PostParam @NotNull(message = "用户id不能为空") Long id,
+                              @PostParam @NotNull(message = "用户状态不能为空") Integer userStatus) {
+        return R.judge(iSysUserService.changeUserStatus(id, userStatus));
     }
 
 
