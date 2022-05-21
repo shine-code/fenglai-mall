@@ -13,15 +13,15 @@ public class EnumUtil {
 
     /**
      * 判断枚举中是否存在目标值
-     * @param enums 目标枚举类 values()
+     * @param enums 目标枚举类
      * @param value 目标值
      * @return 是否存在-boolean
      */
-    public static boolean isExist(IBaseEnum[] enums, Object value) {
+    public static boolean isExist(Class<? extends IBaseEnum> enumclazz, Object value) {
         if (value == null) {
             return false;
         }
-        for (IBaseEnum e : enums) {
+        for (IBaseEnum e : enumclazz.getEnumConstants()) {
             if (value.equals(e.getValue())) {
                 return true;
             }
@@ -35,11 +35,11 @@ public class EnumUtil {
      * @param value 目标值
      * @return label
      */
-    public static String getLabelByValue(IBaseEnum[] enums, Object value) {
+    public static String getLabelByValue(Class<? extends IBaseEnum> enumclazz, Object value) {
         if (value == null) {
             return "";
         }
-        for (IBaseEnum e : enums) {
+        for (IBaseEnum e : enumclazz.getEnumConstants()) {
             if (value.toString().equals(e.getValue().toString())) {
                 return e.getLabel().toString();
             }

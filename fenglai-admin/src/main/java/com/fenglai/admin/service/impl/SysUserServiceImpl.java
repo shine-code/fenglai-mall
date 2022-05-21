@@ -46,7 +46,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
           page.setTotal(new PageInfo<>(resList).getTotal());
 
           resList.forEach(user -> {
-               user.setUserStatus(EnumUtil.getLabelByValue(UserStatusEnum.values(), user.getUserStatus()));
+               user.setUserStatus(EnumUtil.getLabelByValue(UserStatusEnum.class, user.getUserStatus()));
           });
           return resList;
      }
@@ -116,7 +116,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
 
      @Override
      public boolean changeUserStatus(Long userId, Integer userStatus) {
-          boolean exist = EnumUtil.isExist(UserStatusEnum.values(), userStatus);
+          boolean exist = EnumUtil.isExist(UserStatusEnum.class, userStatus);
           Assert.isTrue(exist, "用户状态不存在");
           Assert.notNull(getById(userId), "用户不存在");
 
