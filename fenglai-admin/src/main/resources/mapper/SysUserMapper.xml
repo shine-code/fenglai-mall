@@ -4,6 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fenglai.admin.pojo.dos.SysUserDO">
+        <result column="user_code" property="userCode" />
         <result column="user_name" property="userName" />
         <result column="nick_name" property="nickName" />
         <result column="org_id" property="orgId" />
@@ -15,7 +16,34 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_name, nick_name, org_id, sex, phone, avatar, user_status
+        user_code, user_name, nick_name, org_id, sex, phone, avatar, user_status
     </sql>
 
+    <select id="queryUserList" resultType="com.fenglai.admin.pojo.vos.SysUserListVO">
+        select u.id, u.user_code, u.user_name, u.org_id, o.org_name, u.phone,
+            case u.sex
+                when 0 then '女'
+                when 1 then '男'
+                else ''
+            end as sex,
+            u.user_status
+        from sys_user u
+        left join sys_org o on u.org_id = o.id
+        <where>
+            u.user_status in (0, 1) and o.org_status = 0
+            <if test="param != null">
+                <if test="param.keyword != null and param.keyword != ''">
+                    and (
+                    u.user_code like concat('%', #{param.keyword}, '%')
+                    or u.user_name like concat('%', #{param.keyword}, '%')
+                    or u.phone like concat('%', #{param.keyword}, '%')
+                    )
+                </if>
+                <if test="param.orgId != null and param.orgId != ''">
+                    and u.org_id = #{param.orgId}
+                </if>
+            </if>
+            order by u.id desc
+        </where>
+    </select>
 </mapper>

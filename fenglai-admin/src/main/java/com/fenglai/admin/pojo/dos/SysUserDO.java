@@ -23,6 +23,11 @@ public class SysUserDO extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 用户编码
+     */
+    @TableField("user_code")
+    private String userCode;
+    /**
      * 用户名
      */
     @TableField("user_name")

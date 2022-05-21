@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @description:
+ * @description: 使用包装后的HttpServletRequest继续传递
  * 
  * @author: TJ
  * @date:  2022-05-21
@@ -20,7 +20,6 @@ public class BodyReaderFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         ServletRequest requestWrapper = null;
-        int i = 1 / 0;
         if (servletRequest instanceof HttpServletRequest) {
             requestWrapper = new RequestWrapper((HttpServletRequest) servletRequest);
         }

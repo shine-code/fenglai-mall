@@ -5,9 +5,9 @@ package com.fenglai.common.web.pojo;
  * @author: TJ
  * @date:  2022-05-19
  **/
-public interface IBaseEnum<V, L> {
+public interface IBaseEnum<V> {
 
     V getValue();
 
-    L getLabel();
+    String getLabel();
 }

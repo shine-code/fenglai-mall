@@ -21,7 +21,12 @@ public class AddUserDTO {
      * 用户id
      */
     private Long id;
-
+    /**
+     * 用户编码
+      */
+    @NotBlank(message = "用户编码不能为空")
+    @Length(max = 20, message = "用户编码不超过20")
+    private String userCode;
     /**
      * 用户名
      */

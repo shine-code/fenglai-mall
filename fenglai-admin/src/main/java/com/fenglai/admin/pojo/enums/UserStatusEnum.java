@@ -11,7 +11,7 @@ import lombok.Getter;
  * @date:  2022-05-19
  **/
 @AllArgsConstructor
-public enum UserStatusEnum implements IBaseEnum<Integer, String> {
+public enum UserStatusEnum implements IBaseEnum<Integer> {
 
     ENABLE(0, "已启用"),
     DISABLE(1, "已禁用"),

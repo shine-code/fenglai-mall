@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description:
+ * @description: 全局处理过滤器中的异常
  * 
  * @author: TJ
  * @date:  2022-05-21

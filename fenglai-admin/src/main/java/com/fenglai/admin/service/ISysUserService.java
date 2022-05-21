@@ -3,6 +3,11 @@ package com.fenglai.admin.service;
 import com.fenglai.admin.pojo.dos.SysUserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
+import com.fenglai.admin.pojo.dtos.QueryUserDTO;
+import com.fenglai.admin.pojo.vos.SysUserListVO;
+import com.fenglai.common.web.response.Page;
+
+import java.util.List;
 
 /**
  * @description: 用户表 - Service服务
@@ -17,4 +22,6 @@ public interface ISysUserService extends IService<SysUserDO> {
     boolean updateUser(AddUserDTO userDTO);
 
     boolean changeUserStatus(Long userId, Integer userStatus);
+
+    List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, Page page);
 }

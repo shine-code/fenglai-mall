@@ -3,18 +3,21 @@ package com.fenglai.admin.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fenglai.admin.pojo.dos.SysUserDO;
 import com.fenglai.admin.mapper.SysUserMapper;
 import com.fenglai.admin.pojo.dos.SysUserRoleDO;
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
+import com.fenglai.admin.pojo.dtos.QueryUserDTO;
 import com.fenglai.admin.pojo.enums.UserStatusEnum;
+import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.admin.service.ISysUserRoleService;
 import com.fenglai.admin.service.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fenglai.common.web.response.Page;
 import com.fenglai.common.web.utils.EnumUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,6 +37,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
      private SysUserMapper sysUserMapper;
      @Autowired
      private ISysUserRoleService iSysUserRoleService;
+
+     @Override
+     public List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, Page page) {
+
+          PageHelper.startPage(page.getPageNum(), page.getPageSize());
+          List<SysUserListVO> resList = sysUserMapper.queryUserList(queryUserDTO);
+          page.setTotal(new PageInfo<>(resList).getTotal());
+
+          resList.forEach(user -> {
+               user.setUserStatus(EnumUtil.getLabelByValue(UserStatusEnum.values(), user.getUserStatus()));
+          });
+          return resList;
+     }
 
      @Override
      public boolean addUser(AddUserDTO userDTO) {
@@ -94,8 +110,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
 
           SysUserDO updateDO = new SysUserDO();
           BeanUtil.copyProperties(userDTO, updateDO, "id", "roleIds");
-          return update(updateDO,
-                  Wrappers.lambdaUpdate(SysUserDO.class)
+          return update(updateDO, Wrappers.lambdaUpdate(SysUserDO.class)
                           .eq(SysUserDO::getId, userId));
      }
 

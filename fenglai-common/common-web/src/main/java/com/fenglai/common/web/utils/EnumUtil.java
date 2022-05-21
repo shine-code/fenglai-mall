@@ -35,13 +35,13 @@ public class EnumUtil {
      * @param value 目标值
      * @return label
      */
-    public static Object getLabelByValue(IBaseEnum[] enums, Object value) {
+    public static String getLabelByValue(IBaseEnum[] enums, Object value) {
         if (value == null) {
             return "";
         }
         for (IBaseEnum e : enums) {
-            if (value.equals(e.getValue())) {
-                return e.getLabel();
+            if (value.toString().equals(e.getValue().toString())) {
+                return e.getLabel().toString();
             }
         }
         return "";

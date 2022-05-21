@@ -1,7 +1,10 @@
 package com.fenglai.admin.controller;
 
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
+import com.fenglai.admin.pojo.dtos.QueryUserDTO;
+import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.common.web.annotations.PostParam;
+import com.fenglai.common.web.response.Page;
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fenglai.admin.service.ISysUserService;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @description: 用户表 Controller
@@ -23,6 +27,18 @@ public class SysUserController {
 
     @Autowired
     private ISysUserService iSysUserService;
+
+    /**
+     * 用户列表分页查询
+     * @param queryUserDTO 查询参数
+     * @param page 分页参数
+     * @return R
+     */
+    @GetMapping("queryUserList")
+    public R queryUserList(QueryUserDTO queryUserDTO, Page page) {
+        List<SysUserListVO> listVOS = iSysUserService.queryUserList(queryUserDTO, page);
+        return R.ok(listVOS, page);
+    }
 
     /**
      * 新增用户
@@ -47,7 +63,7 @@ public class SysUserController {
     /**
      * 更新用户状态, 启用/停用/删除
      * @param id 用户id
-     * @param userStatus 用户状态值
+     * @param userStatus 用户状态值, {@link com.fenglai.admin.pojo.enums.UserStatusEnum}
      * @return R
      */
     @PostMapping("changeUserStatus")
