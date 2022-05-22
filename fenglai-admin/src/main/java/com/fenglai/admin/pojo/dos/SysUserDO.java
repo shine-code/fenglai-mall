@@ -38,6 +38,11 @@ public class SysUserDO extends BaseEntity implements Serializable {
      */
     @TableField("nick_name")
     private String nickName;
+    /**
+     * 用户密码
+     */
+    @TableField("password")
+    private String password;
 
     /**
      * 组织id

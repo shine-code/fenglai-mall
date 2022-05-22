@@ -15,7 +15,7 @@ import com.fenglai.admin.service.ISysMenuService;
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-menu-do")
+@RequestMapping("api/v1/sys-menu")
 public class SysMenuController {
 
     @Autowired

@@ -16,4 +16,30 @@
         dict_code, dict_name, dict_status, remark, sort
     </sql>
 
+    <select id="getDictList" resultType="com.fenglai.admin.pojo.dtos.DictWithItemDTO">
+        select
+            d.id as dictId, d.dict_code, d.dict_name, d.remark as dictRemark,
+            d.sort as dictSort, d.dict_status,
+            i.id as itemId, i.item_code, i.item_name, i.remark as itemRemark,
+            i.sort as itemSort, i.item_status
+        from sys_dict d
+        left join sys_dict_item i on d.dict_code = i.dict_code
+        <where>
+            <if test="dictKeyword != null and dictKeyword != ''">
+                (
+                    d.dict_code like concat('%', #{dictKeyword}, '%')
+                    or d.dict_name like concat('%', #{dictKeyword}, '%')
+                )
+            </if>
+            <if test="itemKeyword != null and itemKeyword != ''">
+                and (
+                    i.item_code like concat('%', #{itemKeyword}, '%')
+                    or i.item_name like concat('%', #{itemKeyword}, '%')
+                )
+            </if>
+        </where>
+        order by d.create_time desc, i.create_time desc
+
+    </select>
+
 </mapper>

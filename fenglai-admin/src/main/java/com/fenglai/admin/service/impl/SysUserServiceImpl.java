@@ -18,6 +18,7 @@ import com.fenglai.common.web.response.Page;
 import com.fenglai.common.web.utils.EnumUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,6 +34,8 @@ import java.util.stream.Collectors;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> implements ISysUserService {
 
+     @Autowired(required = false)
+     private PasswordEncoder passwordEncoder;
      @Autowired
      private SysUserMapper sysUserMapper;
      @Autowired
@@ -44,17 +47,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
           PageHelper.startPage(page.getPageNum(), page.getPageSize());
           List<SysUserListVO> resList = sysUserMapper.queryUserList(queryUserDTO);
           page.setTotal(new PageInfo<>(resList).getTotal());
-
-          resList.forEach(user -> {
-               user.setUserStatus(EnumUtil.getLabelByValue(UserStatusEnum.class, user.getUserStatus()));
-          });
           return resList;
      }
 
      @Override
      public boolean addUser(AddUserDTO userDTO) {
+          boolean exists = baseMapper.exists(Wrappers.lambdaQuery(SysUserDO.class)
+                  .eq(SysUserDO::getUserCode, userDTO.getUserCode()));
+          Assert.isFalse(exists, "该用户编码已存在");
+
           SysUserDO sysUserDO = new SysUserDO();
           BeanUtil.copyProperties(userDTO, sysUserDO, "id", "roleIds");
+          // 默认密码
+          sysUserDO.setPassword(passwordEncoder.encode("123456"));
           boolean res = save(sysUserDO);
           // 添加用户-角色关联关系
           if (res) {
@@ -110,6 +115,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
 
           SysUserDO updateDO = new SysUserDO();
           BeanUtil.copyProperties(userDTO, updateDO, "id", "roleIds");
+          updateDO.setPassword(passwordEncoder.encode(updateDO.getPassword()));
           return update(updateDO, Wrappers.lambdaUpdate(SysUserDO.class)
                           .eq(SysUserDO::getId, userId));
      }

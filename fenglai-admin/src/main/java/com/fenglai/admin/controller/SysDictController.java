@@ -1,5 +1,6 @@
 package com.fenglai.admin.controller;
 
+import com.fenglai.common.web.response.Page;
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,19 @@ import com.fenglai.admin.service.ISysDictService;
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-dict-do")
+@RequestMapping("api/v1/sys-dict")
 public class SysDictController {
 
     @Autowired
     private ISysDictService iSysDictService;
+
+    /**
+     * 字典数据列表查询
+     * @return R
+     */
+    @GetMapping("getDictList")
+    public R getDictList(String dictKeyword, String itemKeyword, Page page) {
+        return R.ok(iSysDictService.getDictList(dictKeyword, itemKeyword, page), page);
+    }
 
 }
