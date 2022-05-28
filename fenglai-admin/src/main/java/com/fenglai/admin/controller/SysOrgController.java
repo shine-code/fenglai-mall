@@ -15,7 +15,7 @@ import com.fenglai.admin.service.ISysOrgService;
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-org-do")
+@RequestMapping("api/v1/sys-org")
 public class SysOrgController {
 
     @Autowired

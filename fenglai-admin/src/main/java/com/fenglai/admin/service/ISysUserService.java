@@ -4,9 +4,10 @@ import com.fenglai.admin.pojo.dos.SysUserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
 import com.fenglai.admin.pojo.dtos.QueryUserDTO;
+import com.fenglai.admin.pojo.vos.RoleRelateUserVO;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.common.core.excel.ExcelFailResult;
-import com.fenglai.common.web.response.Page;
+import com.fenglai.common.web.response.CommonPage;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
@@ -26,9 +27,11 @@ public interface ISysUserService extends IService<SysUserDO> {
 
     boolean changeUserStatus(Long userId, Integer userStatus);
 
-    List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, Page page);
+    List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, CommonPage page);
 
     List<ExcelFailResult> importUser(InputStream inputStream);
 
     void exportUser(QueryUserDTO queryUserDTO, ServletOutputStream outputStream);
+
+    List<RoleRelateUserVO> listUserByRoleId(Long roleId, String keyword, CommonPage page);
 }

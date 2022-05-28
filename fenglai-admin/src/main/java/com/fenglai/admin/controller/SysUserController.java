@@ -8,7 +8,7 @@ import com.fenglai.admin.pojo.dtos.QueryUserDTO;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.common.core.excel.ExcelFailResult;
 import com.fenglai.common.web.annotations.PostParam;
-import com.fenglai.common.web.response.Page;
+import com.fenglai.common.web.response.CommonPage;
 import com.fenglai.common.web.response.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,10 +46,9 @@ public class SysUserController {
      * 用户列表分页查询
      * @param queryUserDTO 查询参数
      * @param page 分页参数
-     * @return R
      */
     @GetMapping("queryUserList")
-    public R queryUserList(QueryUserDTO queryUserDTO, Page page) {
+    public R queryUserList(QueryUserDTO queryUserDTO, CommonPage page) {
         List<SysUserListVO> listVOS = iSysUserService.queryUserList(queryUserDTO, page);
         return R.ok(listVOS, page);
     }
@@ -57,7 +56,6 @@ public class SysUserController {
     /**
      * 新增用户
      * @param userDTO 用户对象
-     * @return R
      */
     @PostMapping("addUser")
     public R addUser(@Validated @RequestBody AddUserDTO userDTO) {
@@ -67,7 +65,6 @@ public class SysUserController {
     /**
      * 更新用户
      * @param userDTO 用户对象
-     * @return R
      */
     @PostMapping("updateUser")
     public R updateUser(@Validated @RequestBody AddUserDTO userDTO) {
@@ -77,8 +74,7 @@ public class SysUserController {
     /**
      * 更新用户状态, 启用/停用/删除
      * @param id 用户id
-     * @param userStatus 用户状态值, {@link com.fenglai.admin.pojo.enums.UserStatusEnum}
-     * @return R
+     * @param userStatus 用户状态值, {@link com.fenglai.admin.pojo.enums.SysStatusEnum}
      */
     @PostMapping("changeUserStatus")
     public R changeUserStatus(@PostParam @NotNull(message = "用户id不能为空") Long id,
@@ -109,7 +105,6 @@ public class SysUserController {
     /**
      * 导入用户数据
      * @param file 文件对象
-     * @return R
      */
     @PostMapping("/importUser")
     public R importUser(MultipartFile file) throws IOException {
@@ -125,13 +120,27 @@ public class SysUserController {
      * 导出用户
      * @param queryUserDTO 查询参数
      */
-    @GetMapping("/exportUser")
-    public void exportUser(QueryUserDTO queryUserDTO, HttpServletResponse response) throws IOException {
+    @GetMapping("/exportUserList")
+    public void exportUserList(QueryUserDTO queryUserDTO, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment;filename*=utf-8''" + URLEncoder.encode("用户列表.xlsx", "UTF-8"));
         iSysUserService.exportUser(queryUserDTO, response.getOutputStream());
+    }
+
+    /**
+     * 根据角色id查包含的用户
+     * @param roleId 角色id
+     * @param keyword 关键词: 用户编码、用户名、手机号
+     * @param page 分页
+     */
+    @GetMapping
+    public R listUserByRoleId(@NotNull(message = "角色id不能为空") Long roleId,
+                              String keyword,
+                              CommonPage page) {
+
+        return R.ok(iSysUserService.listUserByRoleId(roleId, keyword, page), page);
     }
 
 }

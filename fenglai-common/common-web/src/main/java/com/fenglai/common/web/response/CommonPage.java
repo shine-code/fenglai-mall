@@ -9,7 +9,7 @@ import lombok.Data;
  * @date:  2022-05-22
  **/
 @Data
-public class Page {
+public class CommonPage {
 
     /**
      * 总记录数

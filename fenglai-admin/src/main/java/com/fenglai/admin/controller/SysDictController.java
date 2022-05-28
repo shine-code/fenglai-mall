@@ -1,6 +1,6 @@
 package com.fenglai.admin.controller;
 
-import com.fenglai.common.web.response.Page;
+import com.fenglai.common.web.response.CommonPage;
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class SysDictController {
      * @return R
      */
     @GetMapping("getDictList")
-    public R getDictList(String dictKeyword, String itemKeyword, Page page) {
+    public R getDictList(String dictKeyword, String itemKeyword, CommonPage page) {
         return R.ok(iSysDictService.getDictList(dictKeyword, itemKeyword, page), page);
     }
 

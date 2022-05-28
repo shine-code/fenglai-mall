@@ -7,7 +7,7 @@ import com.fenglai.admin.pojo.dtos.DictWithItemDTO;
 import com.fenglai.admin.pojo.vos.SysDicListVO;
 import com.fenglai.admin.service.ISysDictService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fenglai.common.web.response.Page;
+import com.fenglai.common.web.response.CommonPage;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +26,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDictDO> im
      private SysDictMapper sysDictMapper;
 
      @Override
-     public Collection<SysDicListVO> getDictList(String dictKeyword, String itemKeyword, Page page) {
+     public Collection<SysDicListVO> getDictList(String dictKeyword, String itemKeyword, CommonPage page) {
 
           Map<Long, SysDicListVO> resMap = new HashMap<>(32);
           List<DictWithItemDTO> dictDTOS = sysDictMapper.getDictList(dictKeyword, itemKeyword);

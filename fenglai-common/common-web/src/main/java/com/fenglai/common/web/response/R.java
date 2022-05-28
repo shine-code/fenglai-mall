@@ -22,7 +22,7 @@ public class R implements Serializable {
     /**
      * 分页对象
      */
-    private Page page;
+    private CommonPage page;
 
     private R() {
     }
@@ -38,7 +38,7 @@ public class R implements Serializable {
         return restResult(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data, null);
     }
 
-    public static R ok(Object data, Page page) {
+    public static R ok(Object data, CommonPage page) {
         return restResult(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data, page);
     }
 
@@ -46,7 +46,7 @@ public class R implements Serializable {
         return restResult(code, message, data, null);
     }
 
-    public static R ok(String code, String message, Object data, Page page) {
+    public static R ok(String code, String message, Object data, CommonPage page) {
         return restResult(code, message, data, page);
     }
 
@@ -78,7 +78,7 @@ public class R implements Serializable {
         }
     }
 
-    private static R restResult(String code, String msg, Object data, Page page) {
+    private static R restResult(String code, String msg, Object data, CommonPage page) {
         R result = new R();
         result.setCode(code);
         result.setData(data);

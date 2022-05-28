@@ -23,6 +23,9 @@ import java.util.List;
 @Configuration
 public class CommonWebConfig implements WebMvcConfigurer {
 
+    /**
+     * 增加参数解析器
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new PostParamMethodArgumentResolver());

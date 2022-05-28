@@ -53,4 +53,21 @@
             order by u.id desc
         </where>
     </select>
+
+    <select id="listUserByRoleId" resultType="com.fenglai.admin.pojo.vos.RoleRelateUserVO">
+        select u.id, u.user_code, u.user_name,u.phone, u.create_time
+        from sys_user_role r
+        left join sys_user u on u.id = r.user_id
+        <where>
+            r.role_id = #{roleId}
+            <if test="keyword != null and keyword != ''">
+                and (
+                u.user_code like concat('%', #{keyword}, '%')
+                or u.user_name like concat('%', #{keyword}, '%')
+                or u.phone like concat('%', #{keyword}, '%')
+                )
+            </if>
+            order by u.create_time desc
+        </where>
+    </select>
 </mapper>

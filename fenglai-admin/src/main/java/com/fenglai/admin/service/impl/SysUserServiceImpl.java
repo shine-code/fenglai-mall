@@ -13,15 +13,16 @@ import com.fenglai.admin.pojo.dtos.AddUserDTO;
 import com.fenglai.admin.pojo.dtos.ImportUserDTO;
 import com.fenglai.admin.pojo.dtos.QueryUserDTO;
 import com.fenglai.admin.pojo.enums.UserSexEnum;
-import com.fenglai.admin.pojo.enums.UserStatusEnum;
+import com.fenglai.admin.pojo.enums.SysStatusEnum;
 import com.fenglai.admin.pojo.vos.ExportUserVO;
+import com.fenglai.admin.pojo.vos.RoleRelateUserVO;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.admin.service.ISysUserRoleService;
 import com.fenglai.admin.service.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fenglai.common.core.excel.ExcelFailResult;
 import com.fenglai.common.core.utils.ExcelUtil;
-import com.fenglai.common.web.response.Page;
+import com.fenglai.common.web.response.CommonPage;
 import com.fenglai.common.web.utils.EnumUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -53,7 +54,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
      private ISysUserRoleService iSysUserRoleService;
 
      @Override
-     public List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, Page page) {
+     public List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, CommonPage page) {
 
           PageHelper.startPage(page.getPageNum(), page.getPageSize());
           List<SysUserListVO> resList = sysUserMapper.queryUserList(queryUserDTO);
@@ -133,7 +134,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
 
      @Override
      public boolean changeUserStatus(Long userId, Integer userStatus) {
-          boolean exist = EnumUtil.isExist(UserStatusEnum.class, userStatus);
+          boolean exist = EnumUtil.isExist(SysStatusEnum.class, userStatus);
           Assert.isTrue(exist, "用户状态不存在");
           Assert.notNull(getById(userId), "用户不存在");
 
@@ -170,9 +171,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
                   .map(user -> {
                        ExportUserVO exportUserVO = new ExportUserVO();
                        BeanUtil.copyProperties(user, exportUserVO);
-                       exportUserVO.setUserStatus(EnumUtil.getLabelByValue(UserStatusEnum.class, user.getUserStatus()));
+                       exportUserVO.setUserStatus(EnumUtil.getLabelByValue(SysStatusEnum.class, user.getUserStatus()));
                        return exportUserVO;
                   }).collect(Collectors.toList());
           EasyExcel.write(outputStream, ExportUserVO.class).sheet("用户").doWrite(exportList);
+     }
+
+     @Override
+     public List<RoleRelateUserVO> listUserByRoleId(Long roleId, String keyword, CommonPage page) {
+          PageHelper.startPage(page.getPageNum(), page.getPageSize());
+          List<RoleRelateUserVO> vos = sysUserMapper.listUserByRoleId(roleId, keyword);
+          page.setTotal(new PageInfo<>(vos).getTotal());
+          return vos;
      }
 }

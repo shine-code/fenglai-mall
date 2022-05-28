@@ -3,7 +3,7 @@ package com.fenglai.admin.service;
 import com.fenglai.admin.pojo.dos.SysDictDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fenglai.admin.pojo.vos.SysDicListVO;
-import com.fenglai.common.web.response.Page;
+import com.fenglai.common.web.response.CommonPage;
 
 import java.util.Collection;
 
@@ -15,5 +15,5 @@ import java.util.Collection;
  */
 public interface ISysDictService extends IService<SysDictDO> {
 
-    Collection<SysDicListVO> getDictList(String dictKeyword, String itemKeyword, Page page);
+    Collection<SysDicListVO> getDictList(String dictKeyword, String itemKeyword, CommonPage page);
 }
