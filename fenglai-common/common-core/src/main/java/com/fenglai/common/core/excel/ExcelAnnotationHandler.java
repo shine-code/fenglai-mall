@@ -16,6 +16,13 @@ import java.util.regex.Pattern;
  **/
 public class ExcelAnnotationHandler {
 
+    // 提示语
+    private static final String REQUIRE_TIP = "必填项不能为空";
+    private static final String MIN_TIP = "内容长度小于最低限度";
+    private static final String MAX_TIP = "内容长度超过限制";
+    private static final String REGEXP_TIP = "内容不符合要求";
+    private static final String DATE_FORMAT_TIP = "日期时间格式不符合要求";
+
     // 属性校验函数集合
     private static final List<BiFunction<Excel, String, String>> checkFunction = new ArrayList<>();
 
@@ -37,13 +44,8 @@ public class ExcelAnnotationHandler {
 
     private static final BiFunction<Excel, String, String> require = (excel, fieldValue) -> {
         if (excel.required()) {
-            if (StrUtil.isBlank(fieldValue)) {
-                String msg = "该列内容必填项不能为空";
-                String columnName = excel.columnName();
-                if (StrUtil.isNotBlank(columnName)) {
-                    msg = "[" + columnName + "]" + msg;
-                }
-                return msg;
+            if (StrUtil.isBlank(fieldValue) || "null".equals(fieldValue.trim())) {
+                return getTips(excel, REQUIRE_TIP);
             }
         }
         return null;
@@ -52,12 +54,7 @@ public class ExcelAnnotationHandler {
     private static final BiFunction<Excel, String, String> min = (excel, fieldValue) -> {
         if (excel.min() > 0) {
             if (fieldValue != null && fieldValue.length() < excel.min()) {
-                String msg = "该列内容长度小于最低限度";
-                String columnName = excel.columnName();
-                if (StrUtil.isNotBlank(columnName)) {
-                    msg = "[" + columnName + "]" + msg;
-                }
-                return msg;
+                return getTips(excel, MIN_TIP);
             }
         }
         return null;
@@ -66,12 +63,7 @@ public class ExcelAnnotationHandler {
     private static final BiFunction<Excel, String, String> max = (excel, fieldValue) -> {
         if (excel.max() > 0) {
             if (fieldValue != null && fieldValue.length() > excel.max()) {
-                String msg = "该列内容长度超过限制";
-                String columnName = excel.columnName();
-                if (StrUtil.isNotBlank(columnName)) {
-                    msg = "[" + columnName + "]" + msg;
-                }
-                return msg;
+                return getTips(excel, MAX_TIP);
             }
         }
         return null;
@@ -80,12 +72,7 @@ public class ExcelAnnotationHandler {
     private static final BiFunction<Excel, String, String> regexp = (excel, fieldValue) -> {
         if (StrUtil.isNotBlank(excel.regexp())) {
             if (fieldValue != null && !Pattern.matches(excel.regexp(), fieldValue)) {
-                String msg = "该列内容不符合要求";
-                String columnName = excel.columnName();
-                if (StrUtil.isNotBlank(columnName)) {
-                    msg = "[" + columnName + "]" + msg;
-                }
-                return msg;
+                return getTips(excel, REGEXP_TIP);
             }
         }
         return null;
@@ -98,6 +85,17 @@ public class ExcelAnnotationHandler {
         }
         return null;
     };
+
+    /**
+     * 校验提示信息前面拼上列名
+     */
+    private static String getTips(Excel excel, String tips) {
+        String columnName = excel.columnName();
+        if (StrUtil.isNotBlank(columnName)) {
+            tips = "[" + columnName + "]" + tips;
+        }
+        return tips;
+    }
 
     static {
         checkFunction.add(require);

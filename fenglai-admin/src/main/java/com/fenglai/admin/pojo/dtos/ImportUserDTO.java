@@ -12,12 +12,12 @@ import lombok.Data;
 @Data
 public class ImportUserDTO {
 
-    @Excel(required = true, max = 20)
+    @Excel(columnName = "用户编码", required = true, max = 20)
     private String userCode;
-    @Excel(required = true, max = 20)
+    @Excel(columnName = "用户名", required = true, max = 20)
     private String userName;
     private String nickName;
-    @Excel(required = true)
+    @Excel(columnName = "手机号", required = true)
     private String phone;
     private String orgId;
     private String sex;

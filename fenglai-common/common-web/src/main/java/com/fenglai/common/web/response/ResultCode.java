@@ -16,7 +16,9 @@ import java.io.Serializable;
 public enum ResultCode implements IResultCode, Serializable {
 
     SUCCESS("200", "ok"),
-    SERVLET_ERROR("501", "Filter error"),
+    // 过滤器异常
+    SERVLET_ERROR("501", "操作失败"),
+    // 其他业务异常
     SYSTEM_EXECUTION_ERROR("500", "操作失败");
 
 

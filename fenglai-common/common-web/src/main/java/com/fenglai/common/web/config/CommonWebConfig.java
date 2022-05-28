@@ -1,6 +1,6 @@
 package com.fenglai.common.web.config;
 
-import com.fenglai.common.web.handler.web.BodyReaderFilter;
+import com.fenglai.common.web.handler.web.CachingContentFilter;
 import com.fenglai.common.web.handler.web.PostParamMethodArgumentResolver;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -21,7 +21,7 @@ import java.util.List;
  * @date:  2022-05-20
  **/
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class CommonWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -42,10 +42,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public FilterRegistrationBean<BodyReaderFilter> bodyReaderFilterRegistration() {
-        FilterRegistrationBean<BodyReaderFilter> registration = new FilterRegistrationBean<>(new BodyReaderFilter());
+    public FilterRegistrationBean<CachingContentFilter> cachingContentFilter() {
+        FilterRegistrationBean<CachingContentFilter> registration = new FilterRegistrationBean<>(new CachingContentFilter());
         registration.addUrlPatterns("/*");
-        registration.setName("bodyReaderFilter");
+        registration.setName("cachingContentFilter");
         return registration;
     }
 }

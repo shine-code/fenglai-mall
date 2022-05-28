@@ -2,6 +2,7 @@ package com.fenglai.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fenglai.admin.pojo.dos.SysUserDO;
@@ -41,7 +42,7 @@ import java.util.stream.Collectors;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> implements ISysUserService {
 
-     @Autowired(required = false)
+     @Autowired
      private PasswordEncoder passwordEncoder;
      @Autowired
      private SysUserMapper sysUserMapper;
@@ -148,8 +149,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
                     BeanUtil.copyProperties(userDTO, sysUserDO, "sex");
 
                     // 性别
-                    Integer sex = (Integer) EnumUtil.getValueByLabel(UserSexEnum.class, userDTO.getSex());
+                    Integer sex = Convert.toInt(EnumUtil.getValueByLabel(UserSexEnum.class, userDTO.getSex()));
                     sysUserDO.setSex(sex);
+                    sysUserDO.setPassword(passwordEncoder.encode("123456"));
+                    saveList.add(sysUserDO);
                }
                this.saveBatch(saveList);
           };

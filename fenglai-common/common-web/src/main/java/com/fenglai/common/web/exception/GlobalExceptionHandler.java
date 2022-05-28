@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public R error(DataAccessException e) {
         log.error("操作异常: ", e);
-        return R.error("请稍后重试! data access exception...!");
+        return R.error("数据异常, 请稍后重试!");
     }
 
     @ExceptionHandler(BindException.class)
