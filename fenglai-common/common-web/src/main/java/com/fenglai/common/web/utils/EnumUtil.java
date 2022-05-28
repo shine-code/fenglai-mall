@@ -31,8 +31,8 @@ public class EnumUtil {
 
     /**
      * 根据枚举类中value获取label
-     * @param enums 目标枚举类
-     * @param value 目标值
+     * @param enums 枚举类class
+     * @param value 枚举中的value
      * @return label
      */
     public static String getLabelByValue(Class<? extends IBaseEnum> enumclazz, Object value) {
@@ -42,6 +42,24 @@ public class EnumUtil {
         for (IBaseEnum e : enumclazz.getEnumConstants()) {
             if (value.toString().equals(e.getValue().toString())) {
                 return e.getLabel().toString();
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 根据label获取枚举value
+     * @param enumclazz 枚举类class
+     * @param label 枚举中的label
+     * @return value
+     */
+    public static Object getValueByLabel(Class<? extends IBaseEnum> enumclazz, String label) {
+        if (label == null) {
+            return "";
+        }
+        for (IBaseEnum e : enumclazz.getEnumConstants()) {
+            if (label.trim().equals(e.getLabel())) {
+                return e.getValue();
             }
         }
         return "";

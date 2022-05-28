@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
 import com.fenglai.admin.pojo.dtos.QueryUserDTO;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
+import com.fenglai.common.core.excel.ExcelFailResult;
 import com.fenglai.common.web.response.Page;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -24,4 +26,6 @@ public interface ISysUserService extends IService<SysUserDO> {
     boolean changeUserStatus(Long userId, Integer userStatus);
 
     List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, Page page);
+
+    List<ExcelFailResult> importUser(InputStream inputStream);
 }

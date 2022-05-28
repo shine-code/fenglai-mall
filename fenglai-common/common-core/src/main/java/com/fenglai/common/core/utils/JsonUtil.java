@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
@@ -33,7 +34,7 @@ public class JsonUtil {
     }
 
     /**
-     * 转为格式化后的json串
+     * 格式化的json串
      */
     public static String toJsonPrettify(Object obj) {
         try {
@@ -56,6 +57,16 @@ public class JsonUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static String getNodeValue(String jsonStr, String key) {
+        try {
+            JsonNode jsonNode = OBJECT_MAPPER.readTree(jsonStr);
+            return jsonNode.findValue(key).asText();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

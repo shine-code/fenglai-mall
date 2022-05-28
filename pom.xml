@@ -47,6 +47,7 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.1</mybatis-plus-generator.version>
         <pagehelper.version>1.4.2</pagehelper.version>
+        <easyexcel.version>3.1.0</easyexcel.version>
 
         <graylog.version>3.0.0</graylog.version>
     </properties>
@@ -123,6 +124,12 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
 
             <dependency>

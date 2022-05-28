@@ -8,12 +8,16 @@ import com.fenglai.admin.pojo.dos.SysUserDO;
 import com.fenglai.admin.mapper.SysUserMapper;
 import com.fenglai.admin.pojo.dos.SysUserRoleDO;
 import com.fenglai.admin.pojo.dtos.AddUserDTO;
+import com.fenglai.admin.pojo.dtos.ImportUserDTO;
 import com.fenglai.admin.pojo.dtos.QueryUserDTO;
+import com.fenglai.admin.pojo.enums.UserSexEnum;
 import com.fenglai.admin.pojo.enums.UserStatusEnum;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.admin.service.ISysUserRoleService;
 import com.fenglai.admin.service.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fenglai.common.core.excel.ExcelFailResult;
+import com.fenglai.common.core.utils.ExcelUtil;
 import com.fenglai.common.web.response.Page;
 import com.fenglai.common.web.utils.EnumUtil;
 import com.github.pagehelper.PageHelper;
@@ -22,7 +26,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -129,5 +136,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
           return update(new SysUserDO(), Wrappers.lambdaUpdate(SysUserDO.class)
                   .eq(SysUserDO::getId, userId)
                   .set(SysUserDO::getUserStatus, userStatus));
+     }
+
+     @Override
+     public List<ExcelFailResult> importUser(InputStream inputStream) {
+          // 处理数据
+          Consumer<List<ImportUserDTO>> consumer = rowList -> {
+               List<SysUserDO> saveList = new ArrayList<>();
+               for (ImportUserDTO userDTO : rowList) {
+                    SysUserDO sysUserDO = new SysUserDO();
+                    BeanUtil.copyProperties(userDTO, sysUserDO, "sex");
+
+                    // 性别
+                    Integer sex = (Integer) EnumUtil.getValueByLabel(UserSexEnum.class, userDTO.getSex());
+                    sysUserDO.setSex(sex);
+               }
+               this.saveBatch(saveList);
+          };
+          return ExcelUtil.importData(inputStream, ImportUserDTO.class, consumer);
      }
 }
