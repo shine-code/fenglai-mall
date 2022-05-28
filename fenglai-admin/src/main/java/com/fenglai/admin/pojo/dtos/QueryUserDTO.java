@@ -3,6 +3,8 @@ package com.fenglai.admin.pojo.dtos;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * @description:
  * 
@@ -13,6 +15,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class QueryUserDTO {
 
+    /**
+     * id集合, 选中数据导出时传来
+     */
+    private List<Long> ids;
     /**
      * 关键词: 编码、名称、手机号
      */

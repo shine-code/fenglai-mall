@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fenglai.admin.pojo.dos.SysUserDO;
 import com.fenglai.admin.mapper.SysUserMapper;
@@ -13,6 +14,7 @@ import com.fenglai.admin.pojo.dtos.ImportUserDTO;
 import com.fenglai.admin.pojo.dtos.QueryUserDTO;
 import com.fenglai.admin.pojo.enums.UserSexEnum;
 import com.fenglai.admin.pojo.enums.UserStatusEnum;
+import com.fenglai.admin.pojo.vos.ExportUserVO;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.admin.service.ISysUserRoleService;
 import com.fenglai.admin.service.ISysUserService;
@@ -27,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,5 +160,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
                this.saveBatch(saveList);
           };
           return ExcelUtil.importData(inputStream, ImportUserDTO.class, consumer);
+     }
+
+     @Override
+     public void exportUser(QueryUserDTO queryUserDTO, ServletOutputStream outputStream) {
+
+          List<SysUserListVO> userList = sysUserMapper.queryUserList(queryUserDTO);
+          List<ExportUserVO> exportList = userList.stream()
+                  .map(user -> {
+                       ExportUserVO exportUserVO = new ExportUserVO();
+                       BeanUtil.copyProperties(user, exportUserVO);
+                       exportUserVO.setUserStatus(EnumUtil.getLabelByValue(UserStatusEnum.class, user.getUserStatus()));
+                       return exportUserVO;
+                  }).collect(Collectors.toList());
+          EasyExcel.write(outputStream, ExportUserVO.class).sheet("用户").doWrite(exportList);
      }
 }

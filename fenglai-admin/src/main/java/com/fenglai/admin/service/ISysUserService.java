@@ -8,6 +8,7 @@ import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.common.core.excel.ExcelFailResult;
 import com.fenglai.common.web.response.Page;
 
+import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface ISysUserService extends IService<SysUserDO> {
     List<SysUserListVO> queryUserList(QueryUserDTO queryUserDTO, Page page);
 
     List<ExcelFailResult> importUser(InputStream inputStream);
+
+    void exportUser(QueryUserDTO queryUserDTO, ServletOutputStream outputStream);
 }

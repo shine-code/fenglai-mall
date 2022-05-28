@@ -44,4 +44,6 @@ public class SysUserListVO {
      * 用户状态
      */
     private String userStatus;
+
+    private String createTime;
 }
