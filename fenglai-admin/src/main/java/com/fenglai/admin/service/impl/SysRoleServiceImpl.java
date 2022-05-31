@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fenglai.admin.mapper.SysUserMapper;
-import com.fenglai.admin.mapper.SysUserRoleMapper;
 import com.fenglai.admin.pojo.dos.SysRoleDO;
 import com.fenglai.admin.mapper.SysRoleMapper;
 import com.fenglai.admin.pojo.dos.SysUserDO;

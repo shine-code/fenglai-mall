@@ -107,6 +107,9 @@
         <logger name="com.alibaba.nacos.client" level="INFO" addtivity="false">
             <appender-ref ref="CONSOLE" />
         </logger>
+        <logger name="c.x.j.c.thread.ExecutorRegistryThread" level="INFO" addtivity="false">
+            <appender-ref ref="CONSOLE" />
+        </logger>
     </springProfile>
 
     <!-- 生产环境输出至文件 -->

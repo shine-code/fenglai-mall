@@ -7,6 +7,7 @@ import com.fenglai.admin.pojo.dtos.AddUserDTO;
 import com.fenglai.admin.pojo.dtos.QueryUserDTO;
 import com.fenglai.admin.pojo.vos.SysUserListVO;
 import com.fenglai.common.core.excel.ExcelFailResult;
+import com.fenglai.common.web.annotations.Log;
 import com.fenglai.common.web.annotations.PostParam;
 import com.fenglai.common.web.response.CommonPage;
 import com.fenglai.common.web.response.R;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +48,7 @@ public class SysUserController {
      * @param page 分页参数
      */
     @GetMapping("queryUserList")
+    @Log
     public R queryUserList(QueryUserDTO queryUserDTO, CommonPage page) {
         List<SysUserListVO> listVOS = iSysUserService.queryUserList(queryUserDTO, page);
         return R.ok(listVOS, page);

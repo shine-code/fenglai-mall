@@ -1,12 +1,14 @@
 package com.fenglai.common.web.config;
 
 import com.fenglai.common.web.handler.web.CachingContentFilter;
+import com.fenglai.common.web.handler.web.CommonInterceptor;
 import com.fenglai.common.web.handler.web.PostParamMethodArgumentResolver;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Validation;
@@ -30,6 +32,12 @@ public class CommonWebConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new PostParamMethodArgumentResolver());
         WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new CommonInterceptor());
+        WebMvcConfigurer.super.addInterceptors(registry);
     }
 
     /**
