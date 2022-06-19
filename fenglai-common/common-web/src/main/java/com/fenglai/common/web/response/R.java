@@ -1,11 +1,14 @@
 package com.fenglai.common.web.response;
 
+import cn.hutool.core.convert.Convert;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 public class R implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 状态码
@@ -76,6 +79,10 @@ public class R implements Serializable {
         } else {
             return error();
         }
+    }
+
+    public <T> T convertDataTo(Class<T> clazz) {
+        return Convert.convert(clazz, this.getData());
     }
 
     private static R restResult(String code, String msg, Object data, CommonPage page) {

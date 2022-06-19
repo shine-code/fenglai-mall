@@ -34,6 +34,9 @@ public class CommonWebConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addArgumentResolvers(resolvers);
     }
 
+    /**
+     * 拦截器
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CommonInterceptor());

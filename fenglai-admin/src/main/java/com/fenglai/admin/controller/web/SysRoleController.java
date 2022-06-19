@@ -1,4 +1,4 @@
-package com.fenglai.admin.controller;
+package com.fenglai.admin.controller.web;
 
 import com.fenglai.admin.pojo.dtos.AddRoleDTO;
 import com.fenglai.admin.pojo.dtos.QueryRoleDTO;

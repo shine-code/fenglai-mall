@@ -1,4 +1,4 @@
-package com.fenglai.admin.controller;
+package com.fenglai.admin.controller.web;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;

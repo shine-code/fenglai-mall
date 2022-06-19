@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>fenglai-member</artifactId>
+    <artifactId>mall-member</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

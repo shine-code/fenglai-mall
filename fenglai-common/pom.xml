@@ -19,6 +19,7 @@
         <module>common-web</module>
         <module>common-generator</module>
         <module>common-file</module>
+        <module>common-job</module>
     </modules>
 
     <properties>

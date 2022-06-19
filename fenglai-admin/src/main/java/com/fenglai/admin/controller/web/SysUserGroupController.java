@@ -1,4 +1,4 @@
-package com.fenglai.admin.controller;
+package com.fenglai.admin.controller.web;
 
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fenglai.admin.service.ISysMenuService;
+import com.fenglai.admin.service.ISysUserGroupService;
 
 /**
- * @description: 菜单表 Controller
+ * @description: 用户组 Controller
  *
  * @author TJ
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-menu")
-public class SysMenuController {
+@RequestMapping("api/v1/sys-user-group-do")
+public class SysUserGroupController {
 
     @Autowired
-    private ISysMenuService iSysMenuService;
+    private ISysUserGroupService iSysUserGroupService;
 
 }

@@ -1,6 +1,6 @@
 package com.fenglai.admin.pojo.dtos;
 
-import com.fenglai.common.core.annotations.Excel;
+import com.fenglai.common.core.excel.Excel;
 import lombok.Data;
 
 /**

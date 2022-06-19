@@ -1,4 +1,4 @@
-package com.fenglai.admin.controller;
+package com.fenglai.admin.controller.web;
 
 import com.fenglai.common.web.response.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fenglai.admin.service.ISysOrgService;
+import com.fenglai.admin.service.ISysUserGroupRefService;
 
 /**
- * @description: 组织单位表 Controller
+ * @description: 用户-用户组关联 Controller
  *
  * @author TJ
  * @date: 2022-05-15
  */
 @RestController
-@RequestMapping("api/v1/sys-org")
-public class SysOrgController {
+@RequestMapping("api/v1/sys-user-group-ref-do")
+public class SysUserGroupRefController {
 
     @Autowired
-    private ISysOrgService iSysOrgService;
+    private ISysUserGroupRefService iSysUserGroupRefService;
 
 }

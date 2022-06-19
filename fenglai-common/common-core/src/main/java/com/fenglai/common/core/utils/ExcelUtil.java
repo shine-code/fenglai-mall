@@ -2,7 +2,7 @@ package com.fenglai.common.core.utils;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.excel.EasyExcel;
-import com.fenglai.common.core.annotations.Excel;
+import com.fenglai.common.core.excel.Excel;
 import com.fenglai.common.core.excel.CustomReadListener;
 import com.fenglai.common.core.excel.ExcelFailResult;
 import lombok.extern.slf4j.Slf4j;

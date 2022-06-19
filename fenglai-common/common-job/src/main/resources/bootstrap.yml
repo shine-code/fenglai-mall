@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: fenglai-common-job
+  profiles:
+    active: dev

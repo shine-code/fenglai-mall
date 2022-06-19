@@ -7,5 +7,6 @@
 7000    fenglai-gateway
 7001    fenglai-admin
 7002    fenglai-common-file
+7003    fenglai-common-job
 
 9002    Graylog

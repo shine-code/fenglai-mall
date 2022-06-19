@@ -30,7 +30,7 @@
 
     <properties>
         <!-- 临时变量 -->
-        <nacos.url>http://*:8848</nacos.url>
+        <nacos.url>http://124.221.147.66:8848</nacos.url>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
