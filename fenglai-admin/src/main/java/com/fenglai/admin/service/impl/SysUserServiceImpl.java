@@ -29,6 +29,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
@@ -63,6 +64,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
      }
 
      @Override
+     @Transactional(rollbackFor = Exception.class)
      public boolean addUser(AddUserDTO userDTO) {
           boolean exists = baseMapper.exists(Wrappers.lambdaQuery(SysUserDO.class)
                   .eq(SysUserDO::getUserCode, userDTO.getUserCode()));
@@ -84,17 +86,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
                                             .setUserId(userId)
                                             .setRoleId(roleId))
                             .collect(Collectors.toList());
-                    iSysUserRoleService.saveBatch(userRoleDOS);
+                    res = iSysUserRoleService.saveBatch(userRoleDOS);
                }
           }
           return res;
      }
 
      @Override
+     @Transactional(rollbackFor = Exception.class)
      public boolean updateUser(AddUserDTO userDTO) {
-          Long userId = userDTO.getId();
-          Assert.notNull(userId, "用户id不能为空");
 
+          Long userId = userDTO.getId();
           SysUserDO existUser = getById(userId);
           Assert.notNull(existUser, "用户不存在");
 
@@ -125,11 +127,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
                        .in(SysUserRoleDO::getRoleId, delUserRoles));
           }
 
-          SysUserDO updateDO = new SysUserDO();
-          BeanUtil.copyProperties(userDTO, updateDO, "id", "roleIds");
-          updateDO.setPassword(passwordEncoder.encode(updateDO.getPassword()));
-          return update(updateDO, Wrappers.lambdaUpdate(SysUserDO.class)
-                          .eq(SysUserDO::getId, userId));
+          existUser.setUserName(userDTO.getUserName())
+                  .setNickName(userDTO.getNickName())
+                  .setPhone(userDTO.getPhone())
+                  .setAvatar(userDTO.getAvatar())
+                  .setEmail(userDTO.getEmail());
+
+          return baseMapper.updateById(existUser) > 0;
      }
 
      @Override
@@ -138,7 +142,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserDO> im
           Assert.isTrue(exist, "用户状态不存在");
           Assert.notNull(getById(userId), "用户不存在");
 
-          return update(new SysUserDO(), Wrappers.lambdaUpdate(SysUserDO.class)
+          return update(null, Wrappers.lambdaUpdate(SysUserDO.class)
                   .eq(SysUserDO::getId, userId)
                   .set(SysUserDO::getUserStatus, userStatus));
      }

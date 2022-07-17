@@ -22,12 +22,12 @@ public class GlobalExceptionHandler {
             return error((DataAccessException) e);
         }
         log.error("操作失败: ", e);
-        return R.error(e.getMessage());
+        return R.error("服务繁忙!");
     }
 
     @ExceptionHandler(BizException.class)
     public R error(BizException e) {
-        log.error("操作异常: ", e);
+        log.error("操作失败: ", e);
         return R.error(e.getMessage());
     }
 
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DataAccessException.class)
     public R error(DataAccessException e) {
-        log.error("操作异常: ", e);
+        log.error("操作失败: ", e);
         return R.error("数据异常, 请稍后重试!");
     }
 

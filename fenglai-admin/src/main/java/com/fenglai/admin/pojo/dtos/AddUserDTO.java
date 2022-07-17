@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class AddUserDTO {
     /**
      * 用户id
      */
+    @NotNull(message = "用户id不能为空")
     private Long id;
     /**
      * 用户编码
@@ -59,6 +61,11 @@ public class AddUserDTO {
      * 用户头像
      */
     private String avatar;
+
+    /**
+     * 用户邮箱
+     */
+    private String email;
 
     /**
      * 关联角色id集合

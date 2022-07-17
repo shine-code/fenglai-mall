@@ -64,7 +64,7 @@ public class SysUserController {
     }
 
     /**
-     * 更新用户
+     * 更新用户信息
      * @param userDTO 用户对象
      */
     @PostMapping("updateUser")
@@ -128,20 +128,6 @@ public class SysUserController {
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment;filename*=utf-8''" + URLEncoder.encode("用户列表.xlsx", "UTF-8"));
         iSysUserService.exportUser(queryUserDTO, response.getOutputStream());
-    }
-
-    /**
-     * 根据角色id查包含的用户
-     * @param roleId 角色id
-     * @param keyword 关键词: 用户编码、用户名、手机号
-     * @param page 分页
-     */
-    @GetMapping
-    public R listUserByRoleId(@NotNull(message = "角色id不能为空") Long roleId,
-                              String keyword,
-                              CommonPage page) {
-
-        return R.ok(iSysUserService.listUserByRoleId(roleId, keyword, page), page);
     }
 
 }
